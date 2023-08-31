@@ -30,6 +30,13 @@ Dataset :
 
 Algorithm : 
 
+Reference:  
+
+https://blog.roboflow.com/object-tracking-how-to/
+
+https://viso.ai/deep-learning/object-tracking/
+
+
 **Task3: Motion Prediction**
 
 Dataset :
