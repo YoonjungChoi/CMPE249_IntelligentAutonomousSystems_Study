@@ -22,7 +22,7 @@ week2 :
 
 Dataset :
 
-Algorithm : 
+Algorithm : BiFPN (Tesla-backbone)
 
 **Task2: Tracking**
 
