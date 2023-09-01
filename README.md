@@ -30,12 +30,15 @@ Dataset :
 
 Algorithm : 
 
-Reference:  
+Reference
 
-https://blog.roboflow.com/object-tracking-how-to/
+[How to Implement Object Tracking for Computer Vision](https://blog.roboflow.com/object-tracking-how-to/)
 
-https://viso.ai/deep-learning/object-tracking/
+[Object Tracking in Computer Vision (2023 Guide)](https://viso.ai/deep-learning/object-tracking/)
 
+[yolov4-deepsort](https://github.com/theAIGuysCode/yolov4-deepsort?ref=blog.roboflow.com)
+
+[Object Tracking from scratch with OpenCV and Python](https://youtu.be/GgGro5IV-cs?si=LTXbf9YPknU_r8Y3) + [pysource](https://pysource.com/2021/10/05/object-tracking-from-scratch-opencv-and-python/)
 
 **Task3: Motion Prediction**
 
