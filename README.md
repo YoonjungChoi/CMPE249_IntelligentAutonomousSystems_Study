@@ -24,6 +24,10 @@ Dataset :
 
 Algorithm : BiFPN (Tesla-backbone)
 
+Reference :
+
+https://roboflow.com/models/object-detection
+
 **Task2: Tracking**
 
 Dataset :
@@ -39,6 +43,9 @@ Reference
 [yolov4-deepsort](https://github.com/theAIGuysCode/yolov4-deepsort?ref=blog.roboflow.com)
 
 [Object Tracking from scratch with OpenCV and Python](https://youtu.be/GgGro5IV-cs?si=LTXbf9YPknU_r8Y3) + [pysource](https://pysource.com/2021/10/05/object-tracking-from-scratch-opencv-and-python/)
+
+[What is Object Tracking in Computer Vision?](https://blog.roboflow.com/what-is-object-tracking-computer-vision/)
+
 
 **Task3: Motion Prediction**
 
