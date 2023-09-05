@@ -20,7 +20,7 @@ week2 :
 
 **Task1: Object Detection**
 
-Dataset :
+Dataset : https://www.tensorflow.org/datasets/catalog/waymo_open_dataset
 
 Algorithm : YOLOv8, GroundingDINO, Detectron2, DETR, Faster R-CNN, ByteTrack, RTMDet, EfficientDet,  MobileNet SSD
 
