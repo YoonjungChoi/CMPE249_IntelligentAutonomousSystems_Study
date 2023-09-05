@@ -22,7 +22,7 @@ week2 :
 
 Dataset :
 
-Algorithm : BiFPN (Tesla-backbone)
+Algorithm : YOLOv8, GroundingDINO, Detectron2, DETR, Faster R-CNN, ByteTrack, RTMDet, EfficientDet,  MobileNet SSD
 
 Reference :
 
