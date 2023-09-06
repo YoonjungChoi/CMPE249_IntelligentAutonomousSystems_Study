@@ -62,7 +62,12 @@ Algorithm :
 
 Dataset : https://www.cvlibs.net/datasets/kitti/eval_depth.php?benchmark=depth_prediction
 
-Algorithm : VGG16, Resnet 50, 
+Algorithm : NDDepth, [VA-DepthNet](https://github.com/cnexah/VA-DepthNet/tree/main) , [DiffusionDepth](https://github.com/duanyiqun/DiffusionDepth)
+
+Reference 
+
+https://github.com/wangq95/KITTI_Dense_Depth/tree/master
+
 
 
 2. **System track:** system demonstration of one major component related to autonomous and robotic systems, e.g., deployment and application of existing deep learning models in ROS2 with simulation data or recorded rosbag, evaluate the real-time performance
