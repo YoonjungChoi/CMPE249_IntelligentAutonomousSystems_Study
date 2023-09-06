@@ -34,6 +34,11 @@ Dataset :
 
 Algorithm : 
 
+1. Open CV object trackers include the BOOSTING, MIL, KCF, CSRT, MedianFlow, TLD, MOSSE, and [GOTURN](http://davheld.github.io/GOTURN/GOTURN.pdf) trackers.
+2. DeepSort
+3. The Computer Vision Toolbox in MATLAB provides video tracking algorithms, such as continuously adaptive mean shift (CAMShift) and Kanade-Lucas-Tomasi (KLT) for tracking a single object or for use as building blocks in a more complex tracking system.
+4. MDNet is a fast and accurate, CNN-based visual tracking algorithm inspired by the R-CNN object detection network. It functions by sampling candidate regions and passing them through a CNN.
+
 Reference
 
 [How to Implement Object Tracking for Computer Vision](https://blog.roboflow.com/object-tracking-how-to/)
@@ -55,9 +60,9 @@ Algorithm :
 
 **Task4: Depth Estimation**
 
-Dataset :
+Dataset : https://www.cvlibs.net/datasets/kitti/eval_depth.php?benchmark=depth_prediction
 
-Algorithm : 
+Algorithm : VGG16, Resnet 50, 
 
 
 2. **System track:** system demonstration of one major component related to autonomous and robotic systems, e.g., deployment and application of existing deep learning models in ROS2 with simulation data or recorded rosbag, evaluate the real-time performance
