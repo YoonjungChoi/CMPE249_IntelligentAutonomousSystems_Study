@@ -70,6 +70,10 @@ https://github.com/wangq95/KITTI_Dense_Depth/tree/master
 
 BACKBONE [Swin-Transfer](https://github.com/microsoft/Swin-Transformer)
 
+Visualization 
+- https://github.com/enginBozkurt/Visualizing-lidar-data/blob/master/Kitti-Dataset.ipynb
+- https://huggingface.co/docs/datasets/main/en/depth_estimation
+
 
 
 2. **System track:** system demonstration of one major component related to autonomous and robotic systems, e.g., deployment and application of existing deep learning models in ROS2 with simulation data or recorded rosbag, evaluate the real-time performance
