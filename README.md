@@ -10,25 +10,24 @@ week2 :
 
 ## Project Topic
 
-1. **Algorithm track:** existing challenges and datasets (2D/3D object detection/segmentation, tracking, motion prediction, depth estimation), performance comparison of multiple state-of-art solutions and models for the following datasets:
+### Algorithm track
+
+existing challenges and datasets (2D/3D object detection/segmentation, tracking, motion prediction, depth estimation), performance comparison of multiple state-of-art solutions and models for the following datasets:
 
   * KITTI Vision Benchmark Suite (Basic): https://www.cvlibs.net/datasets/kitti/
   * Waymo open dataset: https://waymo.com/open/
   * Argo open dataset: https://www.argoverse.org/
   * NuScenes: https://www.nuscenes.org/
 
-
 **Task1: Object Detection**
 
-Dataset : https://www.tensorflow.org/datasets/catalog/waymo_open_dataset
+ Dataset : https://www.tensorflow.org/datasets/catalog/waymo_open_dataset
 
-Algorithm : YOLOv8, GroundingDINO, Detectron2, DETR, Faster R-CNN, ByteTrack, RTMDet, EfficientDet,  MobileNet SSD
+ Algorithm : YOLOv8, GroundingDINO, Detectron2, DETR, Faster R-CNN, ByteTrack, RTMDet, EfficientDet,  MobileNet SSD
 
-Reference :
+ Reference : https://roboflow.com/models/object-detection
 
-https://roboflow.com/models/object-detection
-
-**Task2: Tracking**
+**Task2: Object Tracking**
 
 Dataset :
 
@@ -60,7 +59,7 @@ Algorithm :
 
 **Task4: Depth Estimation**
 
-Dataset : https://www.cvlibs.net/datasets/kitti/eval_depth.php?benchmark=depth_prediction
+Dataset : [KITTI](https://www.cvlibs.net/datasets/kitti/eval_depth.php?benchmark=depth_prediction) 
 
 Algorithm : [VA-DepthNet](https://github.com/cnexah/VA-DepthNet/tree/main) , [DiffusionDepth](https://github.com/duanyiqun/DiffusionDepth) , [BTS](https://github.com/cogaplex-bts/bts)
 
@@ -75,8 +74,16 @@ Visualization
 - https://huggingface.co/docs/datasets/main/en/depth_estimation
 
 
+### System track 
 
-2. **System track:** system demonstration of one major component related to autonomous and robotic systems, e.g., deployment and application of existing deep learning models in ROS2 with simulation data or recorded rosbag, evaluate the real-time performance
+system demonstration of one major component related to autonomous and robotic systems, e.g., deployment and application of existing deep learning models in ROS2 with simulation data or recorded rosbag, evaluate the real-time performance
+
+
+
+
+
+
+
 
 
 
