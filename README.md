@@ -7,11 +7,12 @@ week1 : Overview, Sensor Systems for autonomous systems
 
 week2 : 
 
+week3 :
 
-## Project Topic
+
+## Project Topics
 
 ### Algorithm track
-
 existing challenges and datasets (2D/3D object detection/segmentation, tracking, motion prediction, depth estimation), performance comparison of multiple state-of-art solutions and models for the following datasets:
 
   * KITTI Vision Benchmark Suite (Basic): https://www.cvlibs.net/datasets/kitti/
@@ -65,11 +66,18 @@ Algorithm : [VA-DepthNet](https://github.com/cnexah/VA-DepthNet/tree/main) , [Di
 
 Reference 
 
-https://github.com/wangq95/KITTI_Dense_Depth/tree/master
+[2023.SEP] 
+
+3rd place [VAdepthNet](https://github.com/cnexah/VA-DepthNet) 
+
+13rd place [NeWCRFs](https://github.com/aliyun/NeWCRFs/tree/master)
+
+27rd place [BTS](https://github.com/cleinc/bts)
 
 BACKBONE [Swin-Transfer](https://github.com/microsoft/Swin-Transformer)
 
 Visualization 
+
 - https://github.com/enginBozkurt/Visualizing-lidar-data/blob/master/Kitti-Dataset.ipynb
 - https://huggingface.co/docs/datasets/main/en/depth_estimation
 
