@@ -85,24 +85,6 @@ Reference - [KITTI-Dataset](https://github.com/alexstaravoitau/KITTI-Dataset/blo
 
 ### 3.1 VA-DepthNet: A Variational Approach to Single Image Depth Prediction
 
-- VA-DepthNet/test.py
-
-Eval on eigan split test dataset
-
-```
-(base) [013907062@coe-hpc1 VA-DepthNet]$ tail log.eval.log
-Missing gt for ../dataset/raw/./2011_09_30/2011_09_30_drive_0016_sync/image_02/data/0000000275.png
-Missing gt for ../dataset/raw/./2011_09_30/2011_09_30_drive_0016_sync/image_02/data/0000000000.png
-Missing gt for ../dataset/raw/./2011_09_30/2011_09_30_drive_0018_sync/image_02/data/0000000000.png
-Missing gt for ../dataset/raw/./2011_09_30/2011_09_30_drive_0027_sync/image_02/data/0000000000.png
-Missing gt for ../dataset/raw/./2011_10_03/2011_10_03_drive_0027_sync/image_02/data/0000000000.png
-Missing gt for ../dataset/raw/./2011_10_03/2011_10_03_drive_0047_sync/image_02/data/0000000000.png
-100%|██████████| 697/697 [04:43<00:00,  2.46it/s]
-Computing errors for 652 eval samples , post_process:  False
-  silog, abs_rel,   log10,     rms,  sq_rel, log_rms,      d1,      d2,      d3
- 6.8172,  0.0502,  0.0219,  2.0927,  0.1479,  0.0758,  0.9773,  0.9974,  0.9994
-```
-
 Eval on challenge validation dataset
 
 ```
@@ -119,11 +101,30 @@ Computing errors for 1000 eval samples , post_process:  False
   silog, abs_rel,   log10,     rms,  sq_rel, log_rms,      d1,      d2,      d3
  6.5207,  0.0461,  0.0198,  1.9626,  0.1426,  0.0714,  0.9802,  0.9967,  0.9991
 ```
+
+
+- data_splits/kitti_official_valid_with_gt.txt
+
+- VA-DepthNet/test.py
+
+```
+(base) [013907062@coe-hpc1 VA-DepthNet]$ tail log.eval.log
+Missing gt for ../dataset/raw/./2011_09_30/2011_09_30_drive_0016_sync/image_02/data/0000000275.png
+Missing gt for ../dataset/raw/./2011_09_30/2011_09_30_drive_0016_sync/image_02/data/0000000000.png
+Missing gt for ../dataset/raw/./2011_09_30/2011_09_30_drive_0018_sync/image_02/data/0000000000.png
+Missing gt for ../dataset/raw/./2011_09_30/2011_09_30_drive_0027_sync/image_02/data/0000000000.png
+Missing gt for ../dataset/raw/./2011_10_03/2011_10_03_drive_0027_sync/image_02/data/0000000000.png
+Missing gt for ../dataset/raw/./2011_10_03/2011_10_03_drive_0047_sync/image_02/data/0000000000.png
+100%|██████████| 697/697 [04:43<00:00,  2.46it/s]
+Computing errors for 652 eval samples , post_process:  False
+  silog, abs_rel,   log10,     rms,  sq_rel, log_rms,      d1,      d2,      d3
+ 6.8172,  0.0502,  0.0219,  2.0927,  0.1479,  0.0758,  0.9773,  0.9974,  0.9994
+```
+
 Results:
 
 Input:
 ![val_selection_cropped_2011_10_03_drive_0047_sync_image_0000000791_image_03](https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/assets/20979517/75b76b43-742c-48b2-aad5-2b9940e2026b)
-
 
 Prediction:
 
