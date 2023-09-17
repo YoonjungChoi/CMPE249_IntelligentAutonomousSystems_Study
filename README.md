@@ -12,6 +12,22 @@ week2 :
 
 week3 :
 
+## HPC Tunneling With local Jupyter 
+
+The GPU node does not have internet access.
+If you wish to access the Jupyter web interface in your local browser, you can set up a tunnel from your local computer to the HPC headnode
+and then create another tunnel from the HPC headnode to the GPU node.
+
+```
+conda activate env
+conda install -c conda-forge jupyterlab
+
+ssh -L 10001:localhost:10001 0107xxx@coe-hpc1.sjsu.edu #from your local computer to HPC headnode, you can use any port number (10001)
+ssh -L 10001:localhost:10001 0107xxx@g7 #in HPC head node to gpu node
+activate python virtual environment, e.g., conda activate xxx
+jupyter lab --no-browser --port=10001 #start the jupyter lab on port 10001 (the port should be the same port used for tunnel)
+
+```
 
 ## Project Topics
 
