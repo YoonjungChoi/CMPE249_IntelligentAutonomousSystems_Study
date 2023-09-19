@@ -1,16 +1,10 @@
 # CMPE 249 IntelligentAutonomous Systems
 
+[HomeWork 1: Object Detection based on YoloV7 and detectron2 algorithms] 
+
 [Project Details Task4: Depth Estimation](https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/tree/main/task4_depth_estimation)
 
 
-
-## Syllabus
-
-week1 : Overview, Sensor Systems for autonomous systems
-
-week2 : 
-
-week3 :
 
 ## HPC Tunneling With local Jupyter 
 
@@ -43,7 +37,7 @@ existing challenges and datasets (2D/3D object detection/segmentation, tracking,
 
  Dataset : [waymo-dataset](https://www.tensorflow.org/datasets/catalog/waymo_open_dataset)
 
- Algorithm : YOLOv8, GroundingDINO, Detectron2, DETR, Faster R-CNN, ByteTrack, RTMDet, EfficientDet,  MobileNet SSD
+ Algorithm : **YOLOv8**, GroundingDINO, **Detectron2**, DETR, Faster R-CNN, ByteTrack, RTMDet, EfficientDet,  MobileNet SSD
 
  Reference : [Description](https://roboflow.com/models/object-detection)
 
