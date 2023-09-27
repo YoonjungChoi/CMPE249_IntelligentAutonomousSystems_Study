@@ -1,8 +1,0 @@
-train: ./data/kitti/train
-val: ./data/kitti/valid
-
-# number of classes
-nc: 1
-
-# class names
-names: [ 'Vehicle' ]
