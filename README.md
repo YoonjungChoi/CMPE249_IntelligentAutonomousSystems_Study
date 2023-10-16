@@ -43,10 +43,6 @@ existing challenges and datasets (2D/3D object detection/segmentation, tracking,
 
 **Task2: Object Tracking**
 
-Dataset :
-
-Algorithm : 
-
 1. Open CV object trackers include the BOOSTING, MIL, KCF, CSRT, MedianFlow, TLD, MOSSE, and [GOTURN](http://davheld.github.io/GOTURN/GOTURN.pdf) trackers.
 2. DeepSort
 3. The Computer Vision Toolbox in MATLAB provides video tracking algorithms, such as continuously adaptive mean shift (CAMShift) and Kanade-Lucas-Tomasi (KLT) for tracking a single object or for use as building blocks in a more complex tracking system.
@@ -57,9 +53,7 @@ Reference:  [How to Implement Object Tracking for Computer Vision](https://blog.
 
 **Task3: Motion Prediction**
 
-Dataset :
 
-Algorithm : 
 
 **Task4: Depth Estimation**
 
