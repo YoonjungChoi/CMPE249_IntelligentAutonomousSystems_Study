@@ -36,7 +36,17 @@ For HPC
 ```
 #interactive mode
 srun -p gpu --gres=gpu --ntasks 1 --nodes 1 --cpus-per-task 4 --pty /bin/bash
+srun -p gpu --gres=gpu --pty /bin/bash
+
+#tunneling
+ssh -L 10007:localhost:10007 SJSU_ID@g8
+
+#activate env
 conda activate env
+
+#open jupyter
+jupyter lab --no-browser --port=10007
+
 ```
 
 ## 2. Dataset: KITTI 
