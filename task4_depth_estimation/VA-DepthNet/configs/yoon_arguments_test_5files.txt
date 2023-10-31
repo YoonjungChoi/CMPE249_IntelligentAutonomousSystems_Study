@@ -1,0 +1,13 @@
+--model_name vadepthnet
+--dataset kitti
+--input_height 352
+--input_width 1216
+--max_depth 80
+--prior_mean 2.54
+--do_kb_crop
+--save_viz
+
+--data_path ../dataset/
+--filenames_file data_splits/yoon_test_5files.txt
+
+--checkpoint_path ./results_log/vadepthnet/model-98000-best_silog_6.81394
