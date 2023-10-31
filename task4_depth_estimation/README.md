@@ -1,21 +1,5 @@
 # Depth Estimation
 
-## Project milestone
-```
-1. A clear list of what you have achieved so far, add your code links. Include the current status of your planned modules. Are they fully functional, partially functional, or still in the development phase?
-
-
-2. Offer a detailed description of the identified 'baseline' modules. Describe the functionality and purpose of these baseline modules. What role do they play in the project.  If applicable, share information about how these baseline modules were implemented or integrated into your project via an additional video demo or screenshots.
-
-
-3. References to any sources you have used during the project.
-
-
-4. Any challenges you have encountered along the way.
-
-5. Your plans to overcome these challenges and move forward with the project.
-
-```
 
 ## 1. setup Environments
 ```
