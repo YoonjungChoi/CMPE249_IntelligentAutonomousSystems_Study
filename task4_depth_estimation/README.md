@@ -129,14 +129,14 @@ Here is a diagram we draw to understand architecuture.
 
 
 
-We implemented **MFA Refine** Module based on Res2Net Archieture. Left shows Refine module and Right shows MFA Refine module we want to apply.
+We implemented **MFA Refine** Module based on Res2Net architecture. Left shows Refine module and Right shows MFA Refine module we want to apply.
 
 ![CMPE 249 VAdepthNet-Refine drawio](https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/assets/20979517/88e2471e-429b-4ec8-b51a-01624fa94763)
 
 
-### 3.2 
+### 3.2 Exploring eval.py test.py pre-trained model
 
-Eval on challenge validation dataset
+Eval on challenge validation dataset, again..
 
 ```
 (newDepth) [013907062@g5 VA-DepthNet]$ python vadepthnet/eval.py configs/yoon_arguments_eval_kittieigen.txt
@@ -188,11 +188,7 @@ Ground Truth:
 ![2011_10_03_drive_0047_sync_groundtruth_depth_0000000791_image_03](https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/assets/20979517/0512aa55-dbf1-467d-8346-8bf2dab39e52)
 
 
-
-
-
 Evaluation Metrics: Scale Invariant Logarithmic error, Relative Squared error, Relative Absolute Error, Root Mean Squared error
-
 
 
 
