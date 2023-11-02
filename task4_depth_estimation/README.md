@@ -92,9 +92,49 @@ They has already splited and saved as data_splits/files..
 Reference - [KITTI-Dataset](https://github.com/alexstaravoitau/KITTI-Dataset/blob/master/kitti-dataset.ipynb)
 
 
-## 3. Algorithm
+## 3. VA-DepthNet Algorithm
 
-### 3.1 VA-DepthNet: A Variational Approach to Single Image Depth Prediction
+### 3.1 Architecture 
+
+We evaluated baseline models with the KITTI Eigen TEST set, and the results show the below.
+
+```
+pretrained model by authors with Swin Transformer Large backbone
+ silog, 	abs_rel,       log10,     rms, 	 sq_rel,   log_rms,      d1,           d2,      	d3
+ 6.5207,  0.0461,  0.0198,  1.9626,  0.1426,  0.0714,  0.9802,  0.9967,  0.9991
+
+our reproduced model with Swin Transformer Large backbone. Best silog evaluation at 98000 steps  of 16 epoch.
+  silog, 	abs_rel,       log10,     rms, 	 sq_rel,   log_rms,      d1,           d2,      	d3
+ 6.8139,  0.0515,  0.0225,  2.0971,  0.1497,  0.0766,  0.9774,  0.9973,  0.9994
+
+our reproduced model with Swin Transformer Tiny backbone. Best silog evaluation at 23400 steps of 40/50 epochs
+ silog, 	abs_rel,       log10,     rms, 	 sq_rel,   log_rms,      d1,           d2,      	d3
+ 7.7805,  0.0574,  0.0249,  2.3042,  0.1873,  0.0860,  0.9673,  0.9959,  0.9991
+```
+
+We faced Memory Issue, so we decided to use Tiny Backbone
+
+From Large Backbone,  4 feature maps  X5: [ BatchSize, 1536, 11, 38 ],  X4: [BatchSize, 768, 22, 76 ], X3: [ BatchSize, 384, 44, 152 ]
+ X2: [ BatchSize, 192, 88, 304 ] are extracted.
+
+From Tiny Backbone, 4 feature maps X5: [ BatchSize, 768, 11, 38 ], X4: [ BatchSize, 384, 22, 76 ],  X3: [ BatchSize, 192, 44, 152 ]
+X2: [ BatchSize, 96, 88, 304 ] are extracted.
+
+Thus, modified some params to use Tiny backbone.
+
+Here is a diagram we draw to understand architecuture.
+
+![CMPE 249 VAdepthNet-Large drawio](https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/assets/20979517/fa2b4a74-d795-4d49-8de3-bdc4414217ca)
+
+
+
+
+We implemented **MFA Refine** Module based on Res2Net Archieture. Left shows Refine module and Right shows MFA Refine module we want to apply.
+
+![CMPE 249 VAdepthNet-Refine drawio](https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/assets/20979517/88e2471e-429b-4ec8-b51a-01624fa94763)
+
+
+### 3.2 
 
 Eval on challenge validation dataset
 
