@@ -129,9 +129,14 @@ Here is a diagram we draw to understand architecuture.
 
 
 
-We implemented **MFA Refine** Module based on Res2Net architecture. Left shows Refine module and Right shows MFA Refine module we want to apply.
+We implemented **MFA Refine** Module based on Res2Net architecture. This diagram shows Refine module of VAdepthNet
 
-![CMPE 249 VAdepthNet-Refine drawio](https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/assets/20979517/88e2471e-429b-4ec8-b51a-01624fa94763)
+![CMPE 249 VAdepthNet-Refine drawio](https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/assets/20979517/3ac36b1e-623a-4c84-a8e0-3542ee9298f6)
+
+This diagram shows MFA Refine modules variant that we proposed.
+
+![CMPE 249 VAdepthNet-MFARefine drawio](https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/assets/20979517/1b9df067-daaa-475f-af4e-2535f800a13f)
+
 
 
 ### 3.2 Exploring eval.py test.py pre-trained model
