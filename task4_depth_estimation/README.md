@@ -112,22 +112,17 @@ our reproduced model with Swin Transformer Tiny backbone. Best silog evaluation 
  7.7805,  0.0574,  0.0249,  2.3042,  0.1873,  0.0860,  0.9673,  0.9959,  0.9991
 ```
 
-We faced Memory Issue, so we decided to use Tiny Backbone
+We faced Memory Issue, so we decided to use Tiny Backbone, and we need to modify some params to use Tiny backbone.
 
-From Large Backbone,  4 feature maps  X5: [ BatchSize, 1536, 11, 38 ],  X4: [BatchSize, 768, 22, 76 ], X3: [ BatchSize, 384, 44, 152 ]
- X2: [ BatchSize, 192, 88, 304 ] are extracted.
+From Large Backbone,  4 feature maps  X5: [ BatchSize, **1536**, 11, 38 ],  X4: [BatchSize, **768**, 22, 76 ], X3: [ BatchSize, **384**, 44, 152 ]
+ X2: [ BatchSize, **192**, 88, 304 ] are extracted.
 
-From Tiny Backbone, 4 feature maps X5: [ BatchSize, 768, 11, 38 ], X4: [ BatchSize, 384, 22, 76 ],  X3: [ BatchSize, 192, 44, 152 ]
-X2: [ BatchSize, 96, 88, 304 ] are extracted.
-
-Thus, modified some params to use Tiny backbone.
+From Tiny Backbone, 4 feature maps X5: [ BatchSize, **768**, 11, 38 ], X4: [ BatchSize, **384**, 22, 76 ],  X3: [ BatchSize, **192**, 44, 152 ]
+X2: [ BatchSize, **96**, 88, 304 ] are extracted.
 
 Here is a diagram we draw to understand architecuture.
 
 ![CMPE 249 VAdepthNet-Large drawio](https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/assets/20979517/fa2b4a74-d795-4d49-8de3-bdc4414217ca)
-
-
-
 
 We implemented **MFA Refine** Module based on Res2Net architecture. This diagram shows Refine module of VAdepthNet
 
@@ -137,7 +132,86 @@ This diagram shows MFA Refine modules variant that we proposed.
 
 ![CMPE 249 VAdepthNet-MFARefine drawio](https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/assets/20979517/1b9df067-daaa-475f-af4e-2535f800a13f)
 
+```
+import torch
+import torch.nn as nn
 
+class MFARefine(nn.Module):
+    def __init__(self, c1, c2):
+        super(MFARefine, self).__init__()
+
+        s = c1 + c2
+        self.scale = 4
+        chunks = int(s/self.scale)
+
+        #feature map
+        self.fblocks0 = nn.Conv2d(s, s, kernel_size=3, padding=1)
+        self.fblocks1 = nn.ModuleList(
+            [
+                nn.Conv2d(chunks, chunks, kernel_size=3, padding=1)
+                for i in range(self.scale - 1)
+            ])
+        self.fblocks2 = nn.Sequential(
+                nn.LeakyReLU(),
+                nn.Conv2d(s, s, kernel_size=3, padding=1))
+        
+        self.fblocks3 = nn.Conv2d(s, c1, kernel_size=1)
+
+        #depth map
+        self.dblocks0 = nn.Conv2d(s, s, kernel_size=3, padding=1)
+        self.dblocks1 = nn.ModuleList(
+            [
+                nn.Conv2d(chunks, chunks, kernel_size=3, padding=1)
+                for i in range(self.scale - 1)
+            ])
+        self.dblocks2 = nn.Sequential(
+                nn.LeakyReLU(),
+                nn.Conv2d(s, s, kernel_size=3, padding=1))
+        
+        self.dblocks3 = nn.Conv2d(s, c2, kernel_size=1)
+        
+    def forward(self, feat, depth):
+        cc = torch.cat([feat, depth], 1)
+
+        #for feature map
+        xf = self.fblocks0(cc)
+        y = []
+        for i, x_i in enumerate(torch.chunk(xf, self.scale, dim=1)):
+          if i == 0:
+            y_i = x_i
+          elif i == 1:
+            y_i = self.fblocks1[i - 1](x_i)
+          else:
+            y_i = self.fblocks1[i - 1](x_i + y_i)
+          y.append(y_i)
+        y = torch.cat(y, dim=1)
+        feat_new = self.fblocks2(y) + cc
+        feat_new = self.fblocks3(feat_new)
+        
+        #for depth map
+        xd = self.dblocks0(cc)
+        y = []
+        for i, x_i in enumerate(torch.chunk(xd, self.scale, dim=1)):
+          if i == 0:
+            y_i = x_i
+          elif i == 1:
+            y_i = self.dblocks1[i - 1](x_i)
+          else:
+            y_i = self.dblocks1[i - 1](x_i + y_i)
+          y.append(y_i)
+        y = torch.cat(y, dim=1)
+        depth_new = self.dblocks2(y) + cc
+        depth_new = self.dblocks3(depth_new)
+        return feat_new, depth_new
+
+feature_map = torch.randn(1,256,22,76)
+depth_map = torch.randn(1,128,22,76)
+refine = MFARefine(256, 128)
+feat_new, dep_new = refine(feature_map, depth_map)
+print(feat_new.shape, dep_new.shape)
+
+#torch.Size([1, 256, 22, 76]) torch.Size([1, 128, 22, 76])
+```
 
 ### 3.2 Exploring eval.py test.py pre-trained model
 
