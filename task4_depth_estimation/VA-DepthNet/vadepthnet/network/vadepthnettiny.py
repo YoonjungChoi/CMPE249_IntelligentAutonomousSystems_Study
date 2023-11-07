@@ -220,6 +220,76 @@ class Refine(nn.Module):
         depth_new = self.dw(cc)
         return feat_new, depth_new
 
+class MFARefine(nn.Module):
+    def __init__(self, c1, c2):
+        super(MFARefine, self).__init__()
+
+        s = c1 + c2
+        self.scale = 4
+        chunks = int(s/self.scale)
+
+        #feature map
+        self.fblocks0 = nn.Conv2d(s, s, kernel_size=3, padding=1)
+        self.fblocks1 = nn.ModuleList(
+            [
+                nn.Conv2d(chunks, chunks, kernel_size=3, padding=1)
+                for i in range(self.scale - 1)
+            ])
+        self.fblocks2 = nn.Sequential(
+                nn.LeakyReLU(),
+                nn.Conv2d(s, s, kernel_size=3, padding=1))
+
+        self.fblocks3 = nn.Conv2d(s, c1, kernel_size=1)
+
+        #depth map
+        self.dblocks0 = nn.Conv2d(s, s, kernel_size=3, padding=1)
+        self.dblocks1 = nn.ModuleList(
+            [
+                nn.Conv2d(chunks, chunks, kernel_size=3, padding=1)
+                for i in range(self.scale - 1)
+            ])
+        self.dblocks2 = nn.Sequential(
+                nn.LeakyReLU(),
+                nn.Conv2d(s, s, kernel_size=3, padding=1))
+
+        self.dblocks3 = nn.Conv2d(s, c2, kernel_size=1)
+
+
+
+    def forward(self, feat, depth):
+        cc = torch.cat([feat, depth], 1)
+
+        #for feature map
+        xf = self.fblocks0(cc)
+        y = []
+        for i, x_i in enumerate(torch.chunk(xf, self.scale, dim=1)):
+            if i == 0:
+                y_i = x_i
+            elif i == 1:
+                y_i = self.fblocks1[i - 1](x_i)
+            else:
+                y_i = self.fblocks1[i - 1](x_i + y_i)
+            y.append(y_i)
+        y = torch.cat(y, dim=1)
+        feat_new = self.fblocks2(y) + cc
+        feat_new = self.fblocks3(feat_new)
+
+        #for depth map
+        xd = self.dblocks0(cc)
+        y = []
+        for i, x_i in enumerate(torch.chunk(xd, self.scale, dim=1)):
+            if i == 0:
+                y_i = x_i
+            elif i == 1:
+                y_i = self.dblocks1[i - 1](x_i)
+            else:
+                y_i = self.dblocks1[i - 1](x_i + y_i)
+            y.append(y_i)
+        y = torch.cat(y, dim=1)
+        depth_new = self.dblocks2(y) + cc
+        depth_new = self.dblocks3(depth_new)
+        return feat_new, depth_new
+
 
 class MetricLayer(nn.Module):
     def __init__(self, c):
@@ -277,9 +347,9 @@ class VADepthNetTiny(nn.Module):
 
         self.vlayer = VarLayer(512, img_size[0]//16, img_size[1]//16)
 
-        self.ref_4 = Refine(512, 128)
-        self.ref_3 = Refine(256, 128)
-        self.ref_2 = Refine(64, 128)
+        self.ref_4 = MFARefine(512, 128)
+        self.ref_3 = MFARefine(256, 128)
+        self.ref_2 = MFARefine(64, 128)
 
         self.var_loss = VarLoss(128, 512)
         self.si_loss = SILogLoss(self.SI_loss_lambda, self.max_depth)
@@ -295,7 +365,7 @@ class VADepthNetTiny(nn.Module):
         x2, x3, x4, x5 = self.backbone(x)
 
         #print("[LOG YJ #2] x2345.shape", x2.shape, x3.shape, x4.shape, x5.shape)
-        #torch.Size([1, 192, 88, 304]) torch.Size([1, 384, 44, 152]) torch.Size([1, 768, 22, 76]) torch.Size([1, 1536, 11, 38])
+        #torch.Size([1, 96, 88, 304]) torch.Size([1, 192, 44, 152]) torch.Size([1, 384, 22, 76]) torch.Size([1, 768, 11, 38]) 
 
         outs = {}
 
@@ -353,7 +423,7 @@ class VADepthNetTiny(nn.Module):
 
         d = torch.sigmoid(metric[:, 0:1]) * (self.outc(d) + torch.exp(metric[:, 1:2]))
 
-        #print("final d", d.shape)
+        #print("[LOG YJ] final d", d.shape)
 
         outs['scale_1'] = d
 
