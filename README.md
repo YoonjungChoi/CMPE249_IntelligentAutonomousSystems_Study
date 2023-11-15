@@ -4,6 +4,8 @@
 
 [HomeWork 2: A star Algorithm]
 
+[HomeWork 3: RRT Algorithm and Reinforcement Learning Q-Value]
+
 [Project Details Task4: Depth Estimation](https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/tree/main/task4_depth_estimation)
 
 **Project - Depth Estimation**
