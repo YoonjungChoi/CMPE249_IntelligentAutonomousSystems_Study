@@ -1,11 +1,11 @@
 --mode train
---model_name vadepthnet
+--model_name vadepthnettiny_ori
 --pretrain swin_tiny_patch4_window7_224_22k.pth
 --dataset kitti
 --data_path ../dataset/raw/
 --gt_path ../dataset/gt/
 --filenames_file data_splits/eigen_train_files_with_gt.txt
---batch_size 2
+--batch_size 4
 --num_epochs 50
 --learning_rate 3e-5
 --end_learning_rate 1e-5
@@ -17,7 +17,7 @@
 --max_depth 80
 --prior_mean 2.54
 --do_kb_crop
---log_directory ./results_log_tiny/
+--log_directory ./results_log_tiny_ori/
 --multiprocessing_distributed
 --dist_url tcp://127.0.0.1:9345
 
