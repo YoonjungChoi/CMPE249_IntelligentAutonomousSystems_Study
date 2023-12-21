@@ -122,96 +122,8 @@ X2: [ BatchSize, **96**, 88, 304 ] are extracted.
 
 Here is a diagram we draw to understand architecuture.
 
-![CMPE 249 VAdepthNet-Large drawio](https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/assets/20979517/fa2b4a74-d795-4d49-8de3-bdc4414217ca)
+<img width="945" alt="architecture_overview" src="https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/assets/20979517/147fa045-428a-488a-b14c-d5463e83e105">
 
-We implemented **MFA Refine** Module based on Res2Net architecture. This diagram shows Refine module of VAdepthNet
-
-![CMPE 249 VAdepthNet-Refine drawio](https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/assets/20979517/3ac36b1e-623a-4c84-a8e0-3542ee9298f6)
-
-This diagram shows MFA Refine modules variant that we proposed.
-
-![CMPE 249 VAdepthNet-MFARefine drawio](https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/assets/20979517/1b9df067-daaa-475f-af4e-2535f800a13f)
-
-```
-import torch
-import torch.nn as nn
-
-class MFARefine(nn.Module):
-    def __init__(self, c1, c2):
-        super(MFARefine, self).__init__()
-
-        s = c1 + c2
-        self.scale = 4
-        chunks = int(s/self.scale)
-
-        #feature map
-        self.fblocks0 = nn.Conv2d(s, s, kernel_size=3, padding=1)
-        self.fblocks1 = nn.ModuleList(
-            [
-                nn.Conv2d(chunks, chunks, kernel_size=3, padding=1)
-                for i in range(self.scale - 1)
-            ])
-        self.fblocks2 = nn.Sequential(
-                nn.LeakyReLU(),
-                nn.Conv2d(s, s, kernel_size=3, padding=1))
-        
-        self.fblocks3 = nn.Conv2d(s, c1, kernel_size=1)
-
-        #depth map
-        self.dblocks0 = nn.Conv2d(s, s, kernel_size=3, padding=1)
-        self.dblocks1 = nn.ModuleList(
-            [
-                nn.Conv2d(chunks, chunks, kernel_size=3, padding=1)
-                for i in range(self.scale - 1)
-            ])
-        self.dblocks2 = nn.Sequential(
-                nn.LeakyReLU(),
-                nn.Conv2d(s, s, kernel_size=3, padding=1))
-        
-        self.dblocks3 = nn.Conv2d(s, c2, kernel_size=1)
-        
-    def forward(self, feat, depth):
-        cc = torch.cat([feat, depth], 1)
-
-        #for feature map
-        xf = self.fblocks0(cc)
-        y = []
-        for i, x_i in enumerate(torch.chunk(xf, self.scale, dim=1)):
-          if i == 0:
-            y_i = x_i
-          elif i == 1:
-            y_i = self.fblocks1[i - 1](x_i)
-          else:
-            y_i = self.fblocks1[i - 1](x_i + y_i)
-          y.append(y_i)
-        y = torch.cat(y, dim=1)
-        feat_new = self.fblocks2(y) + cc
-        feat_new = self.fblocks3(feat_new)
-        
-        #for depth map
-        xd = self.dblocks0(cc)
-        y = []
-        for i, x_i in enumerate(torch.chunk(xd, self.scale, dim=1)):
-          if i == 0:
-            y_i = x_i
-          elif i == 1:
-            y_i = self.dblocks1[i - 1](x_i)
-          else:
-            y_i = self.dblocks1[i - 1](x_i + y_i)
-          y.append(y_i)
-        y = torch.cat(y, dim=1)
-        depth_new = self.dblocks2(y) + cc
-        depth_new = self.dblocks3(depth_new)
-        return feat_new, depth_new
-
-feature_map = torch.randn(1,256,22,76)
-depth_map = torch.randn(1,128,22,76)
-refine = MFARefine(256, 128)
-feat_new, dep_new = refine(feature_map, depth_map)
-print(feat_new.shape, dep_new.shape)
-
-#torch.Size([1, 256, 22, 76]) torch.Size([1, 128, 22, 76])
-```
 
 ### 3.2 Exploring eval.py test.py pre-trained model
 
@@ -268,6 +180,74 @@ Ground Truth:
 
 
 Evaluation Metrics: Scale Invariant Logarithmic error, Relative Squared error, Relative Absolute Error, Root Mean Squared error
+
+### 3.3 Experiments
+
+#### 3.3.1 Experiment 1 & 2 redesign of Refine module with Res2Net module.
+
+Previous refine module has a simple structure, so we wanted to redesign the refine module with the Res2Net module. The Res2Net module has multiscale ability. This multi-feature aggregation allows the integration of multi-scale features at each layer, and help network capture both local and global contextual information.
+
+This diagram shows original Refine module of VAdepthNet
+
+![CMPE 249 VAdepthNet-Refine drawio](https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/assets/20979517/3ac36b1e-623a-4c84-a8e0-3542ee9298f6)
+
+This diagram shows Res2Net + Refine modules variant that we proposed.
+
+<img width="953" alt="experiment1_2_refine_res2net" src="https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/assets/20979517/5f953bf9-8ef4-4f08-8fed-eb6021646fb1">
+
+#### 3.3.2 Experiment 3 redesign of metric module with SE module.
+
+Original SE module has the same number of channels before/after squeeze and excitation. However, this architecture’s metric module has a single channel. We doubt its effectiveness, because the SE module's output channel has different feature information. Thus, we redesigned the metric module a slight differently .
+
+This diagram shows original metric module of VAdepthNet
+
+<img width="502" alt="metricmodule" src="https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/assets/20979517/09d2d50d-5e8c-4eff-bca0-074bd09edeb7">
+
+This diagram shows SE + Metric modules that we proposed.
+
+<img width="467" alt="metric_re" src="https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/assets/20979517/94924bce-7b37-4cda-847a-5425a813068d">
+
+
+#### 3.3.3 Experiment 4 Freeze layer of backbone.
+
+So far, we updated all parameters, but ‘freeze’ technique is obvious to cut down computational time while losing not much accuracy. Thus, we experimented freeze patch embedding, absolute position embedding, first two layers (SwinTransformerTiny has 4 layers).
+
+```
+== SwinTransformer Total number of parameters : 30,088,890
+== SwinTransformer Total number of learning parameters: 27,216,612
+== Total number of parameters: 70,983,567
+== Total number of learning parameters: 68,111,289
+```
+
+#### 3.3.4 Experiment 5 Change CNN-based backbone.
+
+We can change CNN-based backbone, which has more parameters.
+
+```
+Swin Transformer Tiny
+== Total number of parameters: 70983567
+== Total number of learning parameters: 70,983,567
+X5: [ BatchSize, 768, 11, 38 ]
+X4: [ BatchSize, 384, 22, 76 ]
+X3: [ BatchSize, 192, 44, 152 ]
+X2: [ BatchSize, 96, 88, 304 ]
+
+
+ResNet50 (resnet50-0676ba61.pth)
+== Total number of parameters: 106,512,669
+== Total number of learning parameters: 106,512,669
+X5: [ BatchSize, 2048, 11, 38 ]
+X4: [ BatchSize, 1024, 22, 76 ]
+X3: [ BatchSize, 512, 44, 152 ]
+X2: [ BatchSize, 256, 88, 304 ]
+```
+
+### 3.4 Results
+
+Every experiment has better performance than baseline except experiment 5 using CNN-based backbone Resnet50. Experiment 1 modifying the Refine module with Res2Net without residual connection has better performance than Experiment 2 with residual connection. Also, Experiment 3 does not have much improvement compared to Baseline, not better and not worse. Experiment 4 freezing layers have the best performance among those experiments. Since freezing former layers still has generic features trained by ImageNet Dataset and KITTI dataset is the specific task focused dataset, its valuable features it has learned would make the network robust in the new task.
+
+<img width="1022" alt="results" src="https://github.com/YoonjungChoi/CMPE249_IntelligentAutonomousSystems_Study/assets/20979517/c8dd2bc5-3360-4d25-beee-4006d16c2b0b">
+
 
 
 
